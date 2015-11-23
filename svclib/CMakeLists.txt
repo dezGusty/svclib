@@ -67,7 +67,7 @@ SET (SOURCE_FILES
 # the manifest, icon and other resources) should also be included
 IF (WIN32)
   SET (SOURCE_FILES_RESOURCE_FOLDER
-    ./guslib/resource/guslib.rc
+    ./resource/svclib.rc
   )
   
   SET (SOURCE_FILES
@@ -83,39 +83,20 @@ ENDIF()
 #
 
 # The common group
-SOURCE_GROUP("guslib\\common" FILES
-  ${SOURCE_FILES_COMMON}
-)
+# SOURCE_GROUP("svclib\\common" FILES
+#   ${SOURCE_FILES_COMMON}
+# )
 
-SOURCE_GROUP("guslib\\system" FILES
-  ${SOURCE_FILES_SYSTEM}
-)
-
-SOURCE_GROUP("guslib\\thirdparty" FILES
-  ${SOURCE_FILES_THIRDPARTY}
-)
-
-SOURCE_GROUP("guslib\\trace" FILES
-  ${SOURCE_FILES_TRACE}
-)
-
-SOURCE_GROUP("guslib\\util" FILES
-  ${SOURCE_FILES_UTIL}
-)
-
-SOURCE_GROUP("guslib\\util\\config" FILES
-  ${SOURCE_FILES_UTIL_CFG}
-)
 
 IF (WIN32)
-  SOURCE_GROUP("guslib\\resource" FILES
+  SOURCE_GROUP("svclib\\resource" FILES
     ${SOURCE_FILES_RESOURCE_FOLDER}
   )
 ENDIF()
 
 # The parent folder 
-SOURCE_GROUP("guslib" FILES
-  ${SOURCE_FILES_BASE_FOLDER}
+SOURCE_GROUP("svclib" FILES
+  ${SOURCE_FILES_SVCLIB_FOLDER}
 )
 
 
@@ -129,42 +110,13 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 #
 # Specify the library to be built from the source files.
 #
-add_library(${SVCLIB_PROJECT_NAME}
-    ${GUSLIB_LIB_TYPE}
+ADD_LIBRARY(${SVCLIB_PROJECT_NAME}
+    ${SVCLIB_LIB_TYPE}
     ${SOURCE_FILES})
 
-# TODO: define link options (static/non-static) and dll-export symbols (GUSLIB_EXP)/GUSLIB_IMP definitions.
-# set_target_properties(${GUSLIB_PROJECT_NAME}
-#     PROPERTIES
-#     COMPILE_DEFINITIONS _LIB
-#     COMPILE_DEFINITIONS GUSLIB_LIB_BUILD
-# )
 
-  
-#
-# Link to dependencies
-#
-IF (Boost_FOUND)
-  TARGET_LINK_LIBRARIES(${GUSLIB_PROJECT_NAME} ${list_of_boost_libs_to_link})
-ENDIF ()
- 
-
-# if (APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
-#     # Set the INSTALL_PATH so that Components can be installed in the application package
-#     set_target_properties(guslib
-#        PROPERTIES BUILD_WITH_INSTALL_RPATH 1
-#        INSTALL_NAME_DIR "@executable_path/../Components"
-#     )
-# 
-# 	# Copy headers into the main Ogre framework
-# 	add_custom_command(TARGET OgreRTShaderSystem POST_BUILD
-# 	  COMMAND ditto ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${OGRE_BINARY_DIR}/lib/$(CONFIGURATION)/Ogre.framework/Headers/
-# 	)
-# endif()
-
-
-install(FILES ${SOURCE_FILES}
-  DESTINATION include/guslib
+INSTALL(FILES ${SOURCE_FILES}
+  DESTINATION include/svclib
 )
 
 #
@@ -172,18 +124,18 @@ install(FILES ${SOURCE_FILES}
 #
 IF (WIN32)
     IF (CMAKE_BUILD_TYPE STREQUAL "Release")
-      SET (GUSLIB_DLL_OUTPUT_DIR "../bin/Release")
+      SET (SVCLIB_DLL_OUTPUT_DIR "../bin/Release")
     ELSE ()
       IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        SET (GUSLIB_DLL_OUTPUT_DIR "../bin/Debug")
+        SET (SVCLIB_DLL_OUTPUT_DIR "../bin/Debug")
       ELSE ()
         MESSAGE (STATUS "CMAKE_BUILD_TYPE is [${CMAKE_BUILD_TYPE}]")
-        SET (GUSLIB_DLL_OUTPUT_DIR "../bin")
+        SET (SVCLIB_DLL_OUTPUT_DIR "../bin")
       ENDIF ()
     ENDIF ()
-    SET (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${GUSLIB_DLL_OUTPUT_DIR})
+    SET (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SVCLIB_DLL_OUTPUT_DIR})
 ELSE()
-    SET (GUSLIB_DLL_OUTPUT_DIR "bin")
+    SET (SVCLIB_DLL_OUTPUT_DIR "bin")
 ENDIF()
 
 #
@@ -191,32 +143,32 @@ ENDIF()
 #
 IF (WIN32)
     IF (CMAKE_BUILD_TYPE STREQUAL "Release")
-      SET (GUSLIB_LIB_OUTPUT_DIR "../lib/Release")
+      SET (SVCLIB_LIB_OUTPUT_DIR "../lib/Release")
     ELSE ()
       IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        SET (GUSLIB_LIB_OUTPUT_DIR "../lib/Debug")
+        SET (SVCLIB_LIB_OUTPUT_DIR "../lib/Debug")
       ELSE ()
-        SET (GUSLIB_LIB_OUTPUT_DIR "../lib")
+        SET (SVCLIB_LIB_OUTPUT_DIR "../lib")
       ENDIF ()
     ENDIF ()
-    SET (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${GUSLIB_LIB_OUTPUT_DIR})
+    SET (CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SVCLIB_LIB_OUTPUT_DIR})
 ELSE()
-    SET (GUSLIB_LIB_OUTPUT_DIR "lib")
+    SET (SVCLIB_LIB_OUTPUT_DIR "lib")
 ENDIF()
 
-SET_TARGET_PROPERTIES (${GUSLIB_PROJECT_NAME}
+SET_TARGET_PROPERTIES (${SVCLIB_PROJECT_NAME}
     PROPERTIES 
-        RUNTIME_OUTPUT_DIRECTORY ${GUSLIB_DLL_OUTPUT_DIR}
-        ARCHIVE_OUTPUT_DIRECTORY ${GUSLIB_LIB_OUTPUT_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${SVCLIB_DLL_OUTPUT_DIR}
+        ARCHIVE_OUTPUT_DIRECTORY ${SVCLIB_LIB_OUTPUT_DIR}
 
 )
 
 # install the build binary
-install(TARGETS ${GUSLIB_PROJECT_NAME}
-  RUNTIME DESTINATION "${GUSLIB_DLL_OUTPUT_DIR}")
+INSTALL(TARGETS ${SVCLIB_PROJECT_NAME}
+  RUNTIME DESTINATION "${SVCLIB_DLL_OUTPUT_DIR}")
 
-install(TARGETS ${GUSLIB_PROJECT_NAME}
-  RUNTIME DESTINATION "${GUSLIB_LIB_OUTPUT_DIR}")
+INSTALL(TARGETS ${SVCLIB_PROJECT_NAME}
+  RUNTIME DESTINATION "${SVCLIB_LIB_OUTPUT_DIR}")
 
-MESSAGE (STATUS "Set runtime dest of ${GUSLIB_PROJECT_NAME} to : ${GUSLIB_DLL_OUTPUT_DIR}")
-MESSAGE (STATUS "Set lib dest of ${GUSLIB_PROJECT_NAME} to : ${GUSLIB_LIB_OUTPUT_DIR}")
+MESSAGE (STATUS "Set runtime dest of ${SVCLIB_PROJECT_NAME} to : ${SVCLIB_DLL_OUTPUT_DIR}")
+MESSAGE (STATUS "Set lib dest of ${SVCLIB_PROJECT_NAME} to : ${SVCLIB_LIB_OUTPUT_DIR}")

@@ -24,7 +24,7 @@
 //
 // Add use of the version.
 //
-#include "../svclib/version.hpp"
+#include "../include/svclib/version.hpp"
 
 //
 // Version information requires inclusion of either <windows.h> or <winver.h>

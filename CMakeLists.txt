@@ -34,7 +34,7 @@ OPTION(SVCLIB_BUILD_SAMPLES "Build the sample projects" ON)
 OPTION(SVCLIB_BUILD_TESTS "Build the tests (requires the google test framework)" ON)
 
 
-PROJECT(guslib)
+PROJECT(svclib)
 
 IF (SVCLIB_BUILD_CORE)
   ADD_SUBDIRECTORY(svclib)
