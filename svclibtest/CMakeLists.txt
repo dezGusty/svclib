@@ -23,28 +23,64 @@
 # THE SOFTWARE.
 #-------------------------------------------------------------------
 
-# Configure Components build
+
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
+SET (svclibtest_project_name svclib_test)
+PROJECT (${svclibtest_project_name})
+
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake/;${CMAKE_MODULE_PATH}")
+SET(svclibtest_project_type SHARED)
+
+MESSAGE(STATUS "Building ${svclibtest_project_name}")
+MESSAGE(STATUS "")
+
+SET(svclibtest_project_DEPENDENCIES "svclib")
+
+# Preprocessor definitions
+ADD_DEFINITIONS(-DUNICODE -D_UNICODE )
+
 # 
-# Specify some user configurable options
-# 
-OPTION(SVCLIB_BUILD_CORE "Build the core lib" ON)
-OPTION(SVCLIB_BUILD_SAMPLES "Build the sample projects" ON)
-OPTION(SVCLIB_BUILD_TESTS "Build the tests (requires the google test framework)" ON)
+# -------------------------------------------------- File section ------------------------------------------------------
+#
+
+SET(SRCS
+  ./svclib_test_main.cpp
+)
+
+# More include directories.
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/../svclib/include)
 
 
-PROJECT(svclib)
+ADD_EXECUTABLE(${svclibtest_project_name} 
+    ${SRCS})
 
-IF (SVCLIB_BUILD_CORE)
-  ADD_SUBDIRECTORY(svclib)
-ENDIF ()
+#
+# Link to dependencies
+#
+TARGET_LINK_LIBRARIES(${svclibtest_project_name} 
+      ${svclibtest_project_DEPENDENCIES} )
 
+#
+# Set the default location of the output executable file.
+#
+IF (WIN32)
+    IF (CMAKE_BUILD_TYPE STREQUAL "Release")
+      SET (svclibtest_project_out_dir "../bin/Release")
+    ELSE ()
+      IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+        SET (svclibtest_project_out_dir "../bin/Debug")
+      ELSE ()
+        SET (svclibtest_project_out_dir "../bin")
+      ENDIF ()
+    ENDIF ()
+ELSE()
+    SET (svclibtest_project_out_dir "bin")
+ENDIF()
 
-# IF (SVCLIB_BUILD_SAMPLES)
-# 	ADD_SUBDIRECTORY(samples)
-# ENDIF ()
-# 
-IF (SVCLIB_BUILD_TESTS)
-	ADD_SUBDIRECTORY(svclibtest)
-ENDIF ()
+SET_TARGET_PROPERTIES (${svclibtest_project_name} 
+    PROPERTIES 
+        RUNTIME_OUTPUT_DIRECTORY ${svclibtest_project_out_dir}
+)
+

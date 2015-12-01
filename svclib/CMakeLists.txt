@@ -52,14 +52,21 @@ ADD_DEFINITIONS(-DUNICODE -D_UNICODE -DSVCLIB_EXP -D_USRDLL)
 
 # Just keep this for future references
 SET (SOURCE_FILES_SVCLIB_FOLDER
+  ./src/service.cpp
+)
+
+SET (HEADER_FILES_SVCLIB_FOLDER
   ./include/svclib/build_options.h
   ./include/svclib/platform.h
+  ./include/svclib/service.h
   ./include/svclib/version.hpp
 )
 
 
 
+
 SET (SOURCE_FILES
+  ${HEADER_FILES_SVCLIB_FOLDER}
   ${SOURCE_FILES_SVCLIB_FOLDER}
 )
 
@@ -82,12 +89,6 @@ ENDIF()
 # The files must be already defined in the header or source list.
 #
 
-# The common group
-# SOURCE_GROUP("svclib\\common" FILES
-#   ${SOURCE_FILES_COMMON}
-# )
-
-
 IF (WIN32)
   SOURCE_GROUP("svclib\\resource" FILES
     ${SOURCE_FILES_RESOURCE_FOLDER}
@@ -95,8 +96,12 @@ IF (WIN32)
 ENDIF()
 
 # The parent folder 
-SOURCE_GROUP("svclib" FILES
+SOURCE_GROUP("src" FILES
   ${SOURCE_FILES_SVCLIB_FOLDER}
+)
+
+SOURCE_GROUP("include\\svclib" FILES
+  ${HEADER_FILES_SVCLIB_FOLDER}
 )
 
 
@@ -105,7 +110,11 @@ SOURCE_GROUP("svclib" FILES
 # Add the current folder (CMAKE_CURRENT_SOURCE_DIR)
 # If you don't build into the same directory, also add CMAKE_CURRENT_BINARY_DIR.
 #
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+MESSAGE(STATUS "CMAKE_CURRENT_SOURCE_DIR is: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 #
 # Specify the library to be built from the source files.
