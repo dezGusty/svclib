@@ -90,6 +90,43 @@ namespace svclib
 
   int Service::Execute()
   {
+    // Perform the needed action, based on the arguments in use.
+    if (this->impl_->arguments_.size() > 1)
+    {
+      // The very first argument is expected to be the name of the application itself.
+
+      // We have some arguments, check the possible arguments out.
+      std::string first_argument = this->impl_->arguments_[1];
+
+      if (first_argument == "install")
+      {
+        // Install the service.
+      }
+      else if (first_argument == "uninstall")
+      {
+        // Uninstall the service.
+      }
+      else if (first_argument == "start")
+      {
+        // Start the service.
+      }
+      else if (first_argument == "stop")
+      {
+        // Stop the service.
+      }
+      else if (first_argument == "pause")
+      {
+        // Pause the service.
+      }
+      else if (first_argument == "resume")
+      {
+        // Resume the service.
+      }
+
+      // Default behavior: start the service
+
+    }
+
     return 0;
   }
 }

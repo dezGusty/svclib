@@ -53,12 +53,14 @@ ADD_DEFINITIONS(-DUNICODE -D_UNICODE -DSVCLIB_EXP -D_USRDLL)
 # Just keep this for future references
 SET (SOURCE_FILES_SVCLIB_FOLDER
   ./src/service.cpp
+  ./src/service_manager.cpp
 )
 
 SET (HEADER_FILES_SVCLIB_FOLDER
   ./include/svclib/build_options.h
   ./include/svclib/platform.h
   ./include/svclib/service.h
+  ./include/svclib/service_manager.h
   ./include/svclib/version.hpp
 )
 

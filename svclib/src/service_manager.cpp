@@ -20,29 +20,43 @@
 //   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //   THE SOFTWARE.
-//
 
 //
 // Includes
 //
 
-// The tracing header.
-#include "svclib/service.h"
+// Own header
+#include "svclib/service_manager.h"
 
-class TestService
-  : public svclib::Service
+namespace svclib
 {
-public:
-  TestService(int argc, char* argv[])
-    : svclib::Service(argc, argv)
+  void ServiceManager::Install(
+    const char* service_name,
+    ServiceStartType start_type,
+    const char* dependencies,
+    const char* account,
+    const char* password)
   {
 
   }
-};
 
-int main(int argc, char* argv[])
-{
-  TestService test_service(argc, argv);
+  void ServiceManager::Uninstall(const char* service_name)
+  {
 
-  return test_service.Execute();
+  }
+
+  void ServiceManager::Start(const char* service_name)
+  {
+
+  }
+
+  void ServiceManager::Stop(const char* service_name)
+  {
+
+  }
+
+  void ServiceManager::Resume(const char* service_name)
+  {
+
+  }
 }

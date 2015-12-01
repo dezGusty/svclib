@@ -38,6 +38,11 @@
 
 namespace svclib
 {
+
+  /**
+    A service (or Daemon) class.
+    @author Augustin Preda.
+  */
   class SVCLIB_EXPORT_SYMBOL Service
   {
   public:
@@ -67,7 +72,9 @@ namespace svclib
     virtual ~Service();
 
     //
-    // Execute the service.
+    // Executes the service.
+    // This performs the needed action for the service, based on the arguments with which the
+    // service has been created.
     //
     virtual int Execute();
 
