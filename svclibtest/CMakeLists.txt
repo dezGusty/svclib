@@ -24,10 +24,13 @@
 #-------------------------------------------------------------------
 
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.2)
 
 SET (svclibtest_project_name svclib_test)
 PROJECT (${svclibtest_project_name})
+
+SET(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/../cmake/;${CMAKE_MODULE_PATH}")
 SET(svclibtest_project_type SHARED)
