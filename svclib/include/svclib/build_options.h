@@ -43,16 +43,29 @@
 //
 // Macro definitions for import / export.
 //
-#ifdef SVCLIB_EXP
-# define SVCLIB_EXPORT_SYMBOL __declspec (dllexport)
-# define SVCLIB_EXPIMP_TEMPLATE
-#elif SVCLIB_STATIC
-# define SVCLIB_EXPORT_SYMBOL
-# define SVCLIB_EXPIMP_TEMPLATE
+#if defined(_MSC_VER)
+# ifdef SVCLIB_EXP
+#  define SVCLIB_EXPORT_SYMBOL __declspec (dllexport)
+#  define SVCLIB_EXPIMP_TEMPLATE
+# elif SVCLIB_STATIC
+#  define SVCLIB_EXPORT_SYMBOL
+#  define SVCLIB_EXPIMP_TEMPLATE
+# else
+#  define SVCLIB_EXPORT_SYMBOL __declspec (dllimport)
+#  define SVCLIB_EXPIMP_TEMPLATE extern
+# endif  //  SVCLIB_EXP
+#elif defined(_GCC)
+# ifdef SVCLIB_EXP
+#  define SVCLIB_EXPORT_SYMBOL __attribute__((visibility("default")))
+#  define SVCLIB_EXPIMP_TEMPLATE
+# elif SVCLIB_STATIC
+#  define SVCLIB_EXPORT_SYMBOL
+#  define SVCLIB_EXPIMP_TEMPLATE
+# else
+#  define SVCLIB_EXPORT_SYMBOL 
+#  define SVCLIB_EXPIMP_TEMPLATE extern
+# endif  //  SVCLIB_EXP
 #else
-# define SVCLIB_EXPORT_SYMBOL __declspec (dllimport)
-# define SVCLIB_EXPIMP_TEMPLATE extern
-#endif  //  SVCLIB_EXP
-
-
-
+#  define SVCLIB_EXPORT_SYMBOL 
+#  define SVCLIB_EXPIMP_TEMPLATE 
+#endif
